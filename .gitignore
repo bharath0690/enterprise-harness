@@ -1,0 +1,12 @@
+# Local credentials and generated state
+.env
+.env.*
+!.env.example
+.venv/
+.runtime/
+workspace/
+checkpoints/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
