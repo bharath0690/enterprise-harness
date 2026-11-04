@@ -37,6 +37,7 @@ Try these requests:
 - Sales: “Use our proposal skill to prepare an Acme proposal from the customer record. Mark pricing and timeline as awaiting confirmation. Save it to /work/proposal.md. Do not send it.”
 - Engineering: “Use our triage skill to investigate Beacon's sync issue. Cite the issue and customer records.”
 - Finance: “What is the revenue total for 2026-Q3? Cite the record.”
+- Any role: “What discount can I offer without approval? Cite the policy.” (document search)
 
 The role selector demonstrates application-owned access rules. Production deployments need authenticated identity and server-owned role/session mapping.
 
@@ -45,7 +46,7 @@ The role selector demonstrates application-owned access rules. Production deploy
 | Responsibility | Files | Behavior |
 |---|---|---|
 | Context | `company/AGENTS.md`, `skills/`, `agent.py` | Company guidance and reusable proposal/triage procedures |
-| Actions | `company.py`, `tools/`, `agent.py` | Role-aware company tools, planning, and a proposal reviewer |
+| Actions | `company.py`, `tools/`, `agent.py`, `docs_index.py`, `docs/` | Role-aware company tools, local vector document search, planning, and a proposal reviewer |
 | Boundaries | `agent.py`, `tools/binding.py`, `company.py` | Role checks, protected reference files, human approval, and model-call limits |
 | Persistence | `workspace.py`, `server.py`, `agent.py` | Local working files, SQLite task checkpoints, and context summarization |
 

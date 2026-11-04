@@ -5,12 +5,13 @@ from pathlib import Path
 
 from langchain_core.tools import ToolException
 from tools import COMPANY_TOOLS, bind_company_tools
+from docs_index import DocsIndex
 
 ROOT = Path(__file__).resolve().parent
 ACCESS = {
-    "sales": {"customer_brief", "send_proposal"},
-    "engineering": {"customer_brief", "issue_lookup"},
-    "finance": {"customer_brief", "revenue_summary"},
+    "sales": {"customer_brief", "search_docs", "send_proposal"},
+    "engineering": {"customer_brief", "search_docs", "issue_lookup"},
+    "finance": {"customer_brief", "search_docs", "revenue_summary"},
 }
 
 
@@ -22,6 +23,7 @@ class Company:
         self.access = {role: set(names) for role, names in ACCESS.items()}
         self.database = Path(database)
         self.database.parent.mkdir(parents=True, exist_ok=True)
+        self.docs = DocsIndex(self.database.parent / "docs-index")
         with sqlite3.connect(self.database) as db:
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS customers
@@ -46,6 +48,10 @@ class Company:
         with sqlite3.connect(f"{self.database.as_uri()}?mode=ro", uri=True) as db:
             db.row_factory = sqlite3.Row
             return [dict(row) for row in db.execute(sql, parameters).fetchall()]
+
+    def search_docs(self, query, limit=4):
+        """Search internal documents in the local vector index."""
+        return self.docs.search(query, limit)
 
     def tools_for(self, role):
         """Return only the tools this application-selected role may use."""

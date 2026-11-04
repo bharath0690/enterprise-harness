@@ -176,6 +176,7 @@ def tool_label(name,args):
         'customer_brief':('Look up customer facts','2A'),
         'issue_lookup':('Look up engineering issue','2A'),
         'revenue_summary':('Query revenue records','2A'),
+        'search_docs':('Search company documents','2A'),
         'write_todos':('Update the plan','2B'),
         'task':('Delegate to proposal reviewer','2C'),
         'send_proposal':('Send proposal for review','3B'),
