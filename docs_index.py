@@ -89,7 +89,8 @@ class DocsIndex:
             return []
         found = collection.query(query_texts=[query], n_results=min(limit, count))
         return [
-            {"doc": meta["doc"], "section": meta["section"],
+            {"citation": f'[{meta["doc"]} § {meta["section"]}]',
+             "doc": meta["doc"], "section": meta["section"],
              "text": text.split("\n", 1)[-1], "score": round(distance, 3)}
             for text, meta, distance in zip(
                 found["documents"][0], found["metadatas"][0], found["distances"][0])
